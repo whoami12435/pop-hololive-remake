@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>VTuber Pop</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+  transition: background 0.6s;
+}
+
+/* ---------- Header ---------- */
+h1 {
+  margin-bottom: 10px;
+}
+
+#score {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* ---------- Buttons ---------- */
+.buttons button {
+  padding: 8px 16px;
+  margin: 5px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.buttons button:nth-child(1) { background:#4fc3f7; }
+.buttons button:nth-child(2) { background:#9c27b0; }
+.buttons button:nth-child(3) { background:#ff9800; }
+
+/* ---------- VTuber ---------- */
+.vtuber {
+  display: none;
+}
+
+/* 🔒 ล็อกขนาด ป้องกันขยับ */
+.pop {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  cursor: pointer;
+  user-select: none;
+  transform: translateZ(0);
+}
+
+/* รูปซ้อนกัน */
+.pop img {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.open { opacity: 0; }
+
+/* เปลี่ยนรูปตอนกด */
+.pop:active .close { opacity: 0; }
+.pop:active .open  { opacity: 1; }
+
+/* ---------- Shake (ไม่เคลื่อน layout) ---------- */
+.shake {
+  animation: shake 0.15s;
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -3px); }
+  100% { transform: translate(0,0); }
+}
+</style>
+</head>
+
+<body style="background: linear-gradient(135deg,#e3f2fd,#ffffff);">
+
+<h1>กดให้ได้มากที่สุด</h1>
+<div id="score">Score: 0</div>
+
+<div class="buttons">
+  <button onclick="show('gura')">Gura</button>
+  <button onclick="show('ina')">Ina</button>
+  <button onclick="show('kiara')">Kiara</button>
+</div>
+
+<!-- Gura -->
+<div class="vtuber" id="gura">
+  <div class="pop" onclick="pop(this)">
+    <img class="close" src="img/gura.jpg">
+    <img class="open"  src="img/gura2.jpg">
+  </div>
+</div>
+
+<!-- Ina -->
+<div class="vtuber" id="ina">
+  <div class="pop" onclick="pop(this)">
+    <img class="close" src="img/ina.jpg">
+    <img class="open"  src="img/ina2.jpg">
+  </div>
+</div>
+
+<!-- Kiara -->
+<div class="vtuber" id="kiara">
+  <div class="pop" onclick="pop(this)">
+    <img class="close" src="img/kiara.png">
+    <img class="open"  src="img/kiara2.png">
+  </div>
+</div>
+
+<!-- เสียง -->
+<audio id="popSound" src="sound/pop.mp3"></audio>
+
+<script>
+let score = 0;
+
+const bg = {
+  gura:  "linear-gradient(135deg,#bbdefb,#e3f2fd)",
+  ina:   "linear-gradient(135deg,#e1bee7,#f3e5f5)",
+  kiara: "linear-gradient(135deg,#ffe0b2,#fff3e0)"
+};
+
+function show(name) {
+  document.querySelectorAll('.vtuber').forEach(v => v.style.display = 'none');
+  document.getElementById(name).style.display = 'block';
+  document.body.style.background = bg[name];
+}
+
+function pop(el) {
+  score++;
+  document.getElementById("score").innerText = "Score: " + score;
+
+  // เสียง
+  const s = document.getElementById("popSound");
+  s.currentTime = 0;
+  s.play();
+
+  // shake แบบไม่เคลื่อน
+  el.classList.remove("shake");
+  void el.offsetWidth; // reset animation
+  el.classList.add("shake");
+}
+</script>
+
+</body>
+</html>

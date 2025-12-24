@@ -1,0 +1,36 @@
+.vtuber {
+  display: none;
+}
+
+#showgura:checked ~ .vtuber {
+  display: block;
+}
+
+.gura-click {
+  position: relative;
+  width: 300px;
+  cursor: pointer;
+}
+
+.gura-click img {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  user-select: none;
+}
+
+.gura-click1 {
+  opacity: 1;
+}
+
+.gura-click2 {
+  opacity: 0;
+}
+
+.gura-click:active .gura-click1 {
+  opacity: 0;
+}
+
+.gura-click:active .gura-click2 {
+  opacity: 1;
+}
